@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cocktail Roulette</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="css/reset.css"
+      media="screen"
+    />
+  </head>
+  <body>
+    <h1>Cocktail Roulette</h1>
+    <h3>Load one ingredient into the chamber...</h3>
+    <input class="user_input" type="text" placeholder="Gin">
+    <button type="button" onclick="getInputValue()">Play</button>
+    <p class="input_warning hidden">Please enter an ingredient.</p>
+    <div class="routlette-result">
+      <p id="user_input_alert"></p>
+      Hit.
+    </div>
+    <div class="other-results">
+      Close calls...
+    </div>
+  </body>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
