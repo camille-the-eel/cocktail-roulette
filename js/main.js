@@ -9,6 +9,7 @@ let getInputValue = function () {
 
   if (!user_input) {
     inputWarning.classList.remove("hidden");
+    return 1;
   }
 
   document.querySelector(".user_input").value = "";
@@ -38,9 +39,26 @@ function call(query) {
   );
 }
 
-// destructure arg?
 function dataCards(data) {
-  let random = Math.floor(Math.random() * data.length);
+  // Copy of drinks array data
+  let drinksArray = data;
+  let resultsArray = [];
+  let counter = 0;
+  let rouletteIndex = randomize(drinksArray);
+  let rouletteResult = drinksArray[rouletteIndex];
+  // Remove roulette result from drinksArray
+  drinksArray.splice(rouletteIndex, 1);
 
-  console.log(random, data.length);
+  while (counter < 6) {
+    let newCardIndex = randomize(drinksArray);
+    let newCardResult = drinksArray[newCardIndex];
+    resultsArray.push(newCardResult);
+    drinksArray.splice(newCardIndex, 1);
+    counter++;
+  }
+  console.log("Done", resultsArray);
+}
+
+function randomize(array) {
+  return Math.floor(Math.random() * array.length);
 }
