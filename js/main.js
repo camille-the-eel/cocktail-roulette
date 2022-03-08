@@ -66,24 +66,25 @@ function dataCards(data) {
   }
 }
 
-// Because arrays are reference types, this will edit drinksArray as desired
 function random(array) {
   return Math.floor(Math.random() * array.length);
 }
 
+// Fisher-Yates Shuffle
+// Because arrays are reference types, this will edit drinksArray as desired
 function shuffle(array) {
-  let lastIndex = array.length;
+  let counterIndex = array.length;
   let randomIndex;
 
   // Decreasing count. While there are still elements to shuffle:
-  while (lastIndex != 0) {
-    // Pick a remaining element by index
-    randomIndex = Math.floor(Math.random() * lastIndex);
-    lastIndex--;
-    // Swap random element with last element in array (es6 destructuring syntax for the swap)
-    [array[lastIndex], array[randomIndex]] = [
+  while (counterIndex != 0) {
+    // Pick a remaining element by index (recall lastIndex is just array.length decreasing by 1)
+    randomIndex = Math.floor(Math.random() * counterIndex);
+    counterIndex--;
+    // Swap random element with current counter element in array (es6 destructuring syntax for the swap)
+    [array[counterIndex], array[randomIndex]] = [
       array[randomIndex],
-      array[lastIndex],
+      array[counterIndex],
     ];
   }
 }
