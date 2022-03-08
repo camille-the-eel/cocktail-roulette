@@ -43,22 +43,47 @@ function dataCards(data) {
   // Copy of drinks array data
   let drinksArray = data;
   let resultsArray = [];
-  let counter = 0;
-  let rouletteIndex = randomize(drinksArray);
+  let rouletteIndex = random(drinksArray);
   let rouletteResult = drinksArray[rouletteIndex];
   // Remove roulette result from drinksArray
   drinksArray.splice(rouletteIndex, 1);
 
-  while (counter < 6) {
-    let newCardIndex = randomize(drinksArray);
-    let newCardResult = drinksArray[newCardIndex];
-    resultsArray.push(newCardResult);
-    drinksArray.splice(newCardIndex, 1);
-    counter++;
+  if (drinksArray.length < 6) {
+    shuffle(drinksArray);
+  } else if (drinksArray.length >= 6) {
+    let counter = 0;
+
+    while (counter < 6) {
+      let newCardIndex = random(drinksArray);
+      let newCardResult = drinksArray[newCardIndex];
+      resultsArray.push(newCardResult);
+      drinksArray.splice(newCardIndex, 1);
+      counter++;
+    }
+    // console.log("Done", resultsArray);
+  } else {
+    return "Error: func dataCards() | drinksArray.length";
   }
-  console.log("Done", resultsArray);
 }
 
-function randomize(array) {
+// Because arrays are reference types, this will edit drinksArray as desired
+function random(array) {
   return Math.floor(Math.random() * array.length);
+}
+
+function shuffle(array) {
+  let lastIndex = array.length;
+  let randomIndex;
+
+  // Decreasing count. While there are still elements to shuffle:
+  while (lastIndex != 0) {
+    // Pick a remaining element by index
+    randomIndex = Math.floor(Math.random() * lastIndex);
+    lastIndex--;
+    // Swap random element with last element in array (es6 destructuring syntax for the swap)
+    [array[lastIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[lastIndex],
+    ];
+  }
 }
