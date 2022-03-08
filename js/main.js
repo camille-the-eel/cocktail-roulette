@@ -78,7 +78,7 @@ function shuffle(array) {
 
   // Decreasing count. While there are still elements to shuffle:
   while (counterIndex != 0) {
-    // Pick a remaining element by index (recall lastIndex is just array.length decreasing by 1)
+    // Pick a remaining element by index (recall counterIndex is just array.length decreasing by 1 each iteration)
     randomIndex = Math.floor(Math.random() * counterIndex);
     counterIndex--;
     // Swap random element with current counter element in array (es6 destructuring syntax for the swap)
