@@ -3,19 +3,27 @@
 let inputWarning = document.querySelector(".input_warning");
 let inputHeader = document.getElementById("user_input_alert");
 
+let input = document.getElementById("user_input");
+input.addEventListener("keyup", function (e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    document.getElementById("shoot").click();
+  }
+});
+
 let getInputValue = function () {
   clearCards();
   inputWarning.classList.add("hidden");
   inputHeader.classList.add("hidden");
 
-  let user_input = document.querySelector(".user_input").value;
+  let user_input = document.querySelector("#user_input").value;
 
   if (!user_input) {
     inputWarning.classList.remove("hidden");
     return 1;
   }
 
-  document.querySelector(".user_input").value = "";
+  document.querySelector("#user_input").value = "";
   call(user_input);
 };
 
