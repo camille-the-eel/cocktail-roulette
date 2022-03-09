@@ -13,6 +13,7 @@ let getInputValue = function () {
   }
 
   document.querySelector(".user_input").value = "";
+  clearCards();
   call(user_input);
 };
 
@@ -23,14 +24,14 @@ function call(query) {
 
   axios.get(path).then(
     (response) => {
-      console.log(path);
+      // console.log(path);
       let result = response.data;
       if (!result) {
         inputHeader.textContent = `You loaded '${query}'–there are no cocktails matching this input. Please load a different ingredient.`;
         return 1;
       }
       inputHeader.textContent = `You loaded ${query}, see your roulette..blah.`;
-      console.log(result);
+      // console.log(result);
       dataCards(result.drinks);
     },
     (error) => {
@@ -45,25 +46,20 @@ function dataCards(data) {
   let resultsArray = [];
   let rouletteIndex = random(drinksArray);
   let rouletteResult = drinksArray[rouletteIndex];
-  // Remove roulette result from drinksArray
+  // Remove roulette result from drinksArray so it's not copied in the result cards array
   drinksArray.splice(rouletteIndex, 1);
+  generateRouletteCard(rouletteResult);
 
   if (drinksArray.length < 6) {
     shuffle(drinksArray);
   } else if (drinksArray.length >= 6) {
-    let counter = 0;
-
-    while (counter < 6) {
-      let newCardIndex = random(drinksArray);
-      let newCardResult = drinksArray[newCardIndex];
-      resultsArray.push(newCardResult);
-      drinksArray.splice(newCardIndex, 1);
-      counter++;
-    }
-    // console.log("Done", resultsArray);
+    pullRandom(drinksArray, resultsArray);
   } else {
     return "Error: func dataCards() | drinksArray.length";
   }
+
+  console.log("RouletteResult: ", rouletteResult);
+  console.log("ResultsArray:", resultsArray);
 }
 
 function random(array) {
@@ -86,5 +82,49 @@ function shuffle(array) {
       array[randomIndex],
       array[counterIndex],
     ];
+  }
+  generateCards(array);
+}
+
+// Because arrays are reference types, this will edit both source arrays as desired
+function pullRandom(drinksArray, resultsArray) {
+  let counter = 0;
+
+  while (counter < 6) {
+    let newCardIndex = random(drinksArray);
+    let newCardResult = drinksArray[newCardIndex];
+    resultsArray.push(newCardResult);
+    drinksArray.splice(newCardIndex, 1);
+    counter++;
+  }
+  generateCards(resultsArray);
+}
+
+function clearCards() {
+  let image = document.getElementById("roulette-img");
+  if (image) {
+    document.getElementById("roulette-card").removeChild(image);
+  }
+  let images = document.getElementsByClassName("other-imgs");
+  if (images) {
+    while (images.length > 0) {
+      document.getElementById("other-cards").removeChild(images[0]);
+    }
+  }
+}
+
+function generateRouletteCard(result) {
+  let image = new Image(300);
+  image.src = result.strDrinkThumb;
+  image.id = "roulette-img";
+  document.getElementById("roulette-card").appendChild(image);
+}
+
+function generateCards(results) {
+  for (let i = 0; i < results.length; i++) {
+    let image = new Image(300);
+    image.src = results[i].strDrinkThumb;
+    image.className = "other-imgs";
+    document.getElementById("other-cards").appendChild(image);
   }
 }
