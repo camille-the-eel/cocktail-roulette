@@ -1,3 +1,37 @@
+body {
+  text-align: center;
+}
+
+.user_input {
+  font-family: pragmatica-extended, sans-serif;
+  font-size: 18px;
+  width: 40%;
+  border: 2px pink solid;
+  border-radius: 10px;
+}
+
+#shoot {
+  font-family: pragmatica-extended, sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  border: 2px pink solid;
+  border-radius: 10px;
+  background-color: pink;
+}
+
 .hidden {
   display: none;
+}
+
+h1 {
+  font-family: glodok, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 60px;
+}
+
+body {
+  font-family: pragmatica-extended, sans-serif;
+  /* font-weight: 300, 400, 700, 900; */
+  /* font-style: italic; */
 }

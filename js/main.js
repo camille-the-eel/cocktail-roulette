@@ -4,7 +4,10 @@ let inputWarning = document.querySelector(".input_warning");
 let inputHeader = document.getElementById("user_input_alert");
 
 let getInputValue = function () {
+  clearCards();
   inputWarning.classList.add("hidden");
+  inputHeader.classList.add("hidden");
+
   let user_input = document.querySelector(".user_input").value;
 
   if (!user_input) {
@@ -13,7 +16,6 @@ let getInputValue = function () {
   }
 
   document.querySelector(".user_input").value = "";
-  clearCards();
   call(user_input);
 };
 
@@ -27,10 +29,12 @@ function call(query) {
       // console.log(path);
       let result = response.data;
       if (!result) {
+        inputHeader.classList.remove("hidden");
         inputHeader.textContent = `You loaded '${query}'–there are no cocktails matching this input. Please load a different ingredient.`;
         return 1;
       }
-      inputHeader.textContent = `You loaded ${query}, see your roulette..blah.`;
+      inputHeader.classList.remove("hidden");
+      inputHeader.textContent = `You loaded '${query}', tonight you'll be drinking...`;
       // console.log(result);
       dataCards(result.drinks);
     },
