@@ -24,13 +24,11 @@ let getInputValue = function () {
   }
 
   document.querySelector("#user_input").value = "";
-  call(user_input);
+  callQuery(user_input);
 };
 
-function call(query) {
+function callQuery(query) {
   let path = `https://mysterious-meadow-39267.herokuapp.com/http://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${query}`;
-
-  let idpath = `https://mysterious-meadow-39267.herokuapp.com/http://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${17180}`;
 
   axios.get(path).then(
     (response) => {
@@ -60,7 +58,7 @@ function dataCards(data) {
   let rouletteResult = drinksArray[rouletteIndex];
   // Remove roulette result from drinksArray so it's not copied in the result cards array
   drinksArray.splice(rouletteIndex, 1);
-  generateRouletteCard(rouletteResult);
+  generateRouletteImage(rouletteResult);
 
   if (drinksArray.length < 6) {
     shuffle(drinksArray);
@@ -125,12 +123,50 @@ function clearCards() {
   }
 }
 
-function generateRouletteCard(result) {
+function generateRouletteImage(result) {
   let image = new Image(300);
   image.src = result.strDrinkThumb;
   image.id = "roulette-img";
   document.getElementById("roulette-card").appendChild(image);
+
+  callById(result);
 }
+
+function generateRouletteCaption(data) {
+  console.log("DATA", data);
+  // create new object copy from data
+  // sanitize / clean up data (lower case / ingredients array)
+  let recipeDiv = document.createElement("div");
+  recipeDiv.innerHTML = `<h4>${data[0].strDrink}</h4><p class="glass">To be served in a ${data[0].strGlass}.</p>`;
+  document.getElementById("roulette-card").appendChild(recipeDiv);
+}
+
+// add second arg (usage? roulette vs other cards?)
+async function callById(result) {
+  let idpath = `https://mysterious-meadow-39267.herokuapp.com/http://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${result.idDrink}`;
+
+  await axios.get(idpath).then(
+    (response) => {
+      let data = [...response.data.drinks];
+      // console.log("DATA", data);
+      generateRouletteCaption(data);
+      return data;
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+// async function callById(result) {
+//   let idpath = `https://mysterious-meadow-39267.herokuapp.com/http://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${result.idDrink}`;
+
+//   try {
+//     let drinkDetails = await axios.get(idpath);
+//     console.log("Drink details", drinkDetails);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
 
 function generateCards(results) {
   for (let i = 0; i < results.length; i++) {
