@@ -27,6 +27,23 @@ let getInputValue = function () {
   callQuery(user_input);
 };
 
+function clearCards() {
+  let image = document.getElementById("roulette-img");
+  if (image) {
+    document.getElementById("roulette-card").removeChild(image);
+  }
+  let images = document.getElementsByClassName("other-imgs");
+  if (images) {
+    while (images.length > 0) {
+      document.getElementById("other-cards").removeChild(images[0]);
+    }
+  }
+  let rouletteRecipe = document.getElementById("recipe-info");
+  if (rouletteRecipe) {
+    document.getElementById("roulette-card").removeChild(rouletteRecipe);
+  }
+}
+
 function callQuery(query) {
   let path = `https://mysterious-meadow-39267.herokuapp.com/http://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${query}`;
 
@@ -42,7 +59,7 @@ function callQuery(query) {
       inputHeader.classList.remove("hidden");
       inputHeader.textContent = `You loaded '${query}', tonight you'll be drinking...`;
       // console.log(result);
-      dataCards(result.drinks);
+      imageCards(result.drinks);
     },
     (error) => {
       console.log(error);
@@ -50,7 +67,7 @@ function callQuery(query) {
   );
 }
 
-function dataCards(data) {
+function imageCards(data) {
   // Copy of drinks array data
   let drinksArray = data;
   let resultsArray = [];
@@ -65,7 +82,7 @@ function dataCards(data) {
   } else if (drinksArray.length >= 6) {
     pullRandom(drinksArray, resultsArray);
   } else {
-    return "Error: func dataCards() | drinksArray.length";
+    return "Error: func imageCards() | drinksArray.length";
   }
 
   console.log("RouletteResult: ", rouletteResult);
@@ -110,37 +127,6 @@ function pullRandom(drinksArray, resultsArray) {
   generateCards(resultsArray);
 }
 
-function clearCards() {
-  let image = document.getElementById("roulette-img");
-  if (image) {
-    document.getElementById("roulette-card").removeChild(image);
-  }
-  let images = document.getElementsByClassName("other-imgs");
-  if (images) {
-    while (images.length > 0) {
-      document.getElementById("other-cards").removeChild(images[0]);
-    }
-  }
-}
-
-function generateRouletteImage(result) {
-  let image = new Image(300);
-  image.src = result.strDrinkThumb;
-  image.id = "roulette-img";
-  document.getElementById("roulette-card").appendChild(image);
-
-  callById(result);
-}
-
-function generateRouletteCaption(data) {
-  console.log("DATA", data);
-  // create new object copy from data
-  // sanitize / clean up data (lower case / ingredients array)
-  let recipeDiv = document.createElement("div");
-  recipeDiv.innerHTML = `<h4>${data[0].strDrink}</h4><p class="glass">To be served in a ${data[0].strGlass}.</p>`;
-  document.getElementById("roulette-card").appendChild(recipeDiv);
-}
-
 // add second arg (usage? roulette vs other cards?)
 async function callById(result) {
   let idpath = `https://mysterious-meadow-39267.herokuapp.com/http://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${result.idDrink}`;
@@ -149,7 +135,10 @@ async function callById(result) {
     (response) => {
       let data = [...response.data.drinks];
       // console.log("DATA", data);
+      // create dataCard function instead which will hold sanitized copy of data
+      // call roulette vs other there?
       generateRouletteCaption(data);
+      recipeCards(data);
       return data;
     },
     (error) => {
@@ -157,16 +146,36 @@ async function callById(result) {
     }
   );
 }
-// async function callById(result) {
-//   let idpath = `https://mysterious-meadow-39267.herokuapp.com/http://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${result.idDrink}`;
 
-//   try {
-//     let drinkDetails = await axios.get(idpath);
-//     console.log("Drink details", drinkDetails);
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
+function recipeCards(data) {
+  let drinkData = {};
+
+  for (let property of Object.entries(data[0])) {
+    if (property[1]) {
+      drinkData[property[0]] = property[1].toLowerCase();
+    }
+  }
+
+  console.log("Copy", drinkData);
+}
+
+function generateRouletteImage(result) {
+  let image = new Image(300);
+  image.src = result.strDrinkThumb;
+  image.id = "roulette-img";
+  document.getElementById("roulette-card").appendChild(image);
+  // API Call for more details
+  callById(result);
+}
+
+function generateRouletteCaption(data) {
+  // console.log("DATA", data);
+
+  let recipeDiv = document.createElement("div");
+  recipeDiv.id = "recipe-info";
+  recipeDiv.innerHTML = `<h4>${data[0].strDrink}</h4><p class="glass">To be served in a ${data[0].strGlass}.</p>`;
+  document.getElementById("roulette-card").appendChild(recipeDiv);
+}
 
 function generateCards(results) {
   for (let i = 0; i < results.length; i++) {
