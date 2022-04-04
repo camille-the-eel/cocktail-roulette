@@ -21,14 +21,22 @@
     <input id="user_input" type="text" placeholder="Gin">
     <button type="button" id="shoot" onclick="getInputValue()">Shoot</button>
     <p class="input_warning hidden">Please enter an ingredient.</p>
-    <div class="routlette-result">
-      <p id="user_input_alert"></p>
-      <!-- <h3>Hit.</h3> -->
-      <div id="roulette-card"></div>
+    <p id="user_input_alert"></p>
+     <!-- Hit. -->
+    <div id="roulette-result" class="hidden">
+      <div id="roulette-card" class="r-grid-container">
+        <div id="roulette-caption" class="r-grid-item">
+          <h4 id="roulette-recipe-title"></h4>
+          <p id="roulette-recipe-glass"></p>
+          <table id="roulette-recipe">
+            <tbody id="update-roulette-table"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
+     <!--Close calls... -->
     <div class="other-results">
-      <!-- <h3>Close calls...</h3> -->
-      <div id="other-cards"></div>
+      <div id="other-cards" class="o-grid-container"></div>
     </div>
   </body>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
