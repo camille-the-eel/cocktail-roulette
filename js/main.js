@@ -22,6 +22,7 @@ input.addEventListener("keyup", function (e) {
   if (e.key === "Enter") {
     e.preventDefault();
     document.getElementById("shoot").click();
+    document.getElementById("user_input").blur();
   }
 });
 
@@ -45,7 +46,7 @@ let getInputValue = function () {
 function clearCards() {
   let image = document.getElementById("roulette-img");
   if (image) {
-    document.getElementById("roulette-card").removeChild(image);
+    document.getElementById("roulette-img-frame").removeChild(image);
   }
   let otherCards = document.getElementsByClassName("card-container");
   if (otherCards) {
@@ -56,6 +57,8 @@ function clearCards() {
   document.getElementById("roulette-recipe-title").textContent = "";
   document.getElementById("roulette-recipe-glass").textContent = "";
   document.getElementById("update-roulette-table").replaceChildren();
+  document.getElementById("roulette-result").classList.add("hidden");
+  document.getElementById("section-h4").classList.add("hidden");
 }
 
 // Initial API call based on user input
@@ -72,8 +75,9 @@ function callQuery(query) {
       }
       inputHeader.classList.remove("hidden");
       inputHeader.textContent = `You loaded '${query}', tonight you'll be drinking...`;
-      let rouletteResult = document.getElementById("roulette-result");
-      rouletteResult.classList.remove("hidden");
+      document.getElementById("roulette-result").classList.remove("hidden");
+      document.getElementById("section-h4").classList.remove("hidden");
+
       // console.log(result);
       imageCards(result.drinks);
     },
@@ -130,7 +134,7 @@ function shuffle(array) {
       array[counterIndex],
     ];
   }
-  generateOtherImages(array);
+  generateOtherImagesAndCards(array);
 }
 
 // Because arrays are reference types, this will edit both source arrays as desired
@@ -144,17 +148,17 @@ function pullRandom(drinksArray, resultsArray) {
     drinksArray.splice(newCardIndex, 1);
     counter++;
   }
-  generateOtherImages(resultsArray);
+  generateOtherImagesAndCards(resultsArray);
 }
 
 // Async api call to get recipe details about each drink (using the id # of each drink)
-async function callById(result, usage, htmlId) {
+async function callById(result, usage, htmlIndex) {
   let idpath = `https://mysterious-meadow-39267.herokuapp.com/http://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${result.idDrink}`;
 
   await axios.get(idpath).then(
     (response) => {
       let data = [...response.data.drinks];
-      recipeCards(data, usage, htmlId);
+      recipeCards(data, usage, htmlIndex);
       return data;
     },
     (error) => {
@@ -165,7 +169,7 @@ async function callById(result, usage, htmlId) {
 
 // Data management of drink details from secondary API call (callById)
 // Recipe array created, ingredient and measurement data pushed in
-function recipeCards(data, usage, htmlId) {
+function recipeCards(data, usage, htmlIndex) {
   let drinkData = {};
   let recipe = [];
   let ingredientCount = 1;
@@ -174,7 +178,7 @@ function recipeCards(data, usage, htmlId) {
 
   for (let property of Object.entries(data[0])) {
     if (property[1]) {
-      drinkData[property[0]] = property[1];
+      drinkData[property[0]] = property[1].toLowerCase();
 
       if (property[0] === `strIngredient${ingredientCount}`) {
         recipe.push([property[1].toLowerCase()]);
@@ -192,17 +196,17 @@ function recipeCards(data, usage, htmlId) {
       }
     }
   }
-
+  // console.log(drinkData);
   drinkData["recipe"] = recipe;
 
   usage === "roulette"
     ? generateRouletteCaption(drinkData)
-    : generateOtherCaptions(drinkData, htmlId);
+    : generateOtherCaptions(drinkData, htmlIndex);
 }
 
 // DOM manipulation: create table elements to display recipe
 // Data used: recipe array created in recipeCards()
-function generateRecipe(recipe) {
+function generateRecipe(recipe, htmlIndex) {
   recipe.forEach((el, i, arr) => {
     // console.log("For each: ", el);
     let newRow = document.createElement("tr");
@@ -214,10 +218,7 @@ function generateRecipe(recipe) {
     rowIngredient.id = `listIngredient${i + 1}`;
     rowIngredient.textContent = el[0];
 
-    // if roulette
-    document.getElementById("update-roulette-table").appendChild(newRow);
-    // else, other card
-    // -----id-----
+    document.getElementById(htmlIndex).appendChild(newRow);
     newRow.appendChild(rowMeasurement);
     newRow.appendChild(rowIngredient);
   });
@@ -228,10 +229,9 @@ function generateRouletteImage(result) {
   let image = new Image(300);
   image.src = result.strDrinkThumb;
   image.id = "roulette-img";
-  image.className = "r-grid-item";
 
-  let card = document.getElementById("roulette-card");
-  card.insertBefore(image, card.firstChild);
+  let frame = document.getElementById("roulette-img-frame");
+  frame.appendChild(image);
 
   callById(result, "roulette");
 }
@@ -243,63 +243,79 @@ function generateRouletteCaption(data) {
   ).textContent = `${data.strDrink}`;
   document.getElementById(
     "roulette-recipe-glass"
-  ).textContent = `To be served in ${data.strGlass}.`;
+  ).textContent = `Serve in ${data.strGlass}.`;
 
-  generateRecipe(data.recipe);
+  generateRecipe(data.recipe, "update-roulette-table");
 }
 
 // DOM manipulation: Loop through "other cards" results array to display images/create card elements
-function generateOtherImages(results) {
+function generateOtherImagesAndCards(results) {
   for (let i = 0; i < results.length; i++) {
     let cardContainer = document.createElement("div");
     // Add index identifier as last character of id name
     cardContainer.id = `card-container-${i + 1}`;
     cardContainer.className = "o-grid-item card-container";
+
     cardContainer.addEventListener(
       "click",
       function (e) {
         e.preventDefault();
         // Read id of "clicked" DOM element
-        // Grab the last character, this is the index you need to search results[index] by
-        let divId = this.id.slice(-1);
-        callById(results[divId], "other", this.id);
+        // Grab the last character, this is the index + 1 you need to search results[index] by
+        // let divId = this.id.slice(-1);
+        // callById(results[divId - 1], "other", this.id);
       },
       false
     );
     document.getElementById("other-cards").appendChild(cardContainer);
+
+    let innerCard = document.createElement("div");
+    innerCard.className = "flip-card-inner";
+    cardContainer.appendChild(innerCard);
+
+    let imageSide = document.createElement("div");
+    imageSide.className = "flip-card-front";
+    innerCard.appendChild(imageSide);
 
     let image = new Image(300);
     image.src = results[i].strDrinkThumb;
     // Add index identifier as last character of id name
     image.id = `other-img-${i + 1}`;
     image.className = "other-imgs";
-    cardContainer.appendChild(image);
+    imageSide.appendChild(image);
 
-    let caption = document.createElement("div");
+    let captionSide = document.createElement("div");
     // Add index identifier as last character of id name
-    caption.id = `other-caption-${i + 1}`;
-    caption.className = "other-captions";
-    cardContainer.appendChild(caption);
+    captionSide.id = `other-caption-${i + 1}`;
+    captionSide.className = "flip-card-back other-captions";
+    innerCard.appendChild(captionSide);
 
     let drinkTitle = document.createElement("h4");
     drinkTitle.id = `other-title-${i + 1}`;
-    caption.appendChild(drinkTitle);
+    captionSide.appendChild(drinkTitle);
+
+    let table = document.createElement("table");
+    table.id = `other-recipe-${i + 1}`;
+    captionSide.appendChild(table);
+
+    let tb = document.createElement("tbody");
+    tb.id = `update-other-table-${i + 1}`;
+    table.appendChild(tb);
 
     let drinkGlass = document.createElement("p");
     drinkGlass.id = `other-glass-${i + 1}`;
-    caption.appendChild(drinkGlass);
+    captionSide.appendChild(drinkGlass);
 
-    let tableContainer = document.createElement("table");
-    tableContainer.id = `other-recipe-${i + 1}`;
-    caption.appendChild(tableContainer);
-
-    let tableBody = document.createElement("tbody");
-    tableBody = `update-other-table-${i + 1}`;
-    // tableContainer.appendChild(tableBody);
+    callById(results[i], "other", i + 1);
   }
 }
 
-function generateOtherCaptions(data, htmlId) {
-  console.log("Okay: ", data);
-  console.log(htmlId);
+function generateOtherCaptions(data, htmlIndex) {
+  let i = htmlIndex;
+  document.getElementById(`other-title-${i}`).textContent = `${data.strDrink}`;
+  document.getElementById(
+    `other-glass-${i}`
+  ).textContent = `Serve in ${data.strGlass}.`;
+
+  generateRecipe(data.recipe, `update-other-table-${i}`);
 }

@@ -1,0 +1,185 @@
+/* 
+orange #ffbd80 
+light pink #ffb3b3 
+dark pink #ff5e78 
+yellow #fdfb8a 
+green #aae875
+*/
+
+body {
+  font-family: davis-sans, sans-serif;
+  font-weight: 300;
+  font-size: 18px;
+}
+
+body h1 {
+  font-family: glodok, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 45px;
+  padding: 0px;
+  margin-bottom: 20px;
+  padding-bottom: 3vh;
+  border-bottom: 5px solid #ffbd80;
+}
+
+body h3 {
+  margin-top: 30px;
+  font-weight: 400px;
+  font-size: 18px;
+}
+
+#user_input {
+  font-size: 18px;
+  width: 40%;
+  border: 2px #ffb3b3 solid;
+  border-radius: 10px;
+  margin-bottom: 3vh;
+}
+
+#user_input:focus-visible {
+  outline: none;
+  border: 3px #ff5e78 solid;
+}
+
+input:focus::placeholder {
+  color: transparent;
+}
+
+#shoot {
+  font-weight: 500;
+  font-size: 18px;
+  border: 3px #ffb3b3 solid;
+  border-radius: 10px;
+  background-color: #ffb3b3;
+}
+
+#shoot:active {
+  border: 3px #ff5e78 solid;
+  background-color: #ff5e78;
+  color: #fff;
+}
+
+#roulette-result {
+  background-color: #ffbd80;
+  border-radius: 15px;
+  max-width: 640px;
+  margin: 0px auto 0px auto;
+}
+
+#roulette-card {
+  background-image: url(/assets/wave-yellow-B.png);
+  background-repeat: repeat-x;
+  background-position: 0% 15%;
+  padding: 0;
+  margin: 0;
+}
+
+#roulette-img,
+.other-imgs {
+  margin: 15px;
+  margin-top: 2.5vh;
+  border-radius: 10%;
+  width: 80%;
+  height: auto;
+  max-width: 300px !important;
+}
+
+#roulette-recipe-title,
+.other-captions h4 {
+  font-family: glodok, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 28px;
+  padding: 0px;
+  margin: 2vh;
+}
+
+#roulette-recipe-glass,
+.other-captions p {
+  font-weight: 700;
+}
+
+#roulette-recipe {
+  margin: 0 auto;
+}
+
+#roulette-caption {
+  margin-top: 1vh;
+  margin-bottom: 3vh;
+  margin-right: 25px;
+}
+
+#section-title {
+  margin-top: 6vh;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1em;
+}
+
+#section-title::before,
+#section-title::after {
+  content: "";
+  border-top: 1px solid #ffbd80;
+  align-self: center;
+}
+
+.flip-card-inner {
+  max-width: 320px;
+  /* border: 1px solid red; */
+}
+
+.flip-card-front {
+  background-color: #fdfb8a;
+  border-radius: 15px;
+  background-image: url(/assets/wave-green-A.png);
+  background-repeat: repeat-y;
+  background-position: center;
+  padding: 0;
+  margin: 0;
+}
+
+.flip-card-back {
+  overflow: scroll;
+  background-color: #fdfb8a;
+  border-radius: 15px;
+}
+
+.other-captions h4 {
+  margin-top: 3vh;
+}
+
+.other-captions table {
+  margin: 0 auto;
+}
+
+@media (min-width: 400px) {
+  body h1 {
+    font-size: 60px;
+  }
+
+  body h3 {
+    font-size: 20px;
+  }
+
+  #roulette-img,
+  .other-imgs {
+    width: 100%;
+  }
+
+  #roulette-recipe-title {
+    font-size: 28px;
+  }
+}
+
+@media (min-width: 575px) {
+  #roulette-card {
+    background-image: url(/assets/wave-yellow-A.png);
+    background-repeat: repeat-y;
+    background-position: 15%;
+  }
+}
+
+.hidden {
+  display: none;
+}

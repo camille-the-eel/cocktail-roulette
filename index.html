@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cocktail Roulette</title>
     <link rel="stylesheet" href="https://use.typekit.net/opa6viw.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/layout.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
     <link
       rel="stylesheet"
       type="text/css"
@@ -16,25 +17,28 @@
   </head>
   <body>
     <h1>cocktail roulette</h1>
-    <div id="decor1"></div>
     <h3>Load one ingredient into the chamber:</h3>
-    <input id="user_input" type="text" placeholder="Gin">
-    <button type="button" id="shoot" onclick="getInputValue()">Shoot</button>
+    <input id="user_input" type="text" placeholder="gin">
+    <button type="button" id="shoot" onclick="getInputValue()">shoot</button>
     <p class="input_warning hidden">Please enter an ingredient.</p>
     <p id="user_input_alert"></p>
      <!-- Hit. -->
     <div id="roulette-result" class="hidden">
       <div id="roulette-card" class="r-grid-container">
+        <div id="roulette-img-frame" class="r-grid-item"></div>
         <div id="roulette-caption" class="r-grid-item">
           <h4 id="roulette-recipe-title"></h4>
-          <p id="roulette-recipe-glass"></p>
           <table id="roulette-recipe">
             <tbody id="update-roulette-table"></tbody>
           </table>
+          <p id="roulette-recipe-glass"></p>
         </div>
       </div>
     </div>
      <!--Close calls... -->
+    <div id="section-h4" class="hidden">
+      <h4 id="section-title">Close calls...</h4>
+    </div>
     <div class="other-results">
       <div id="other-cards" class="o-grid-container"></div>
     </div>
