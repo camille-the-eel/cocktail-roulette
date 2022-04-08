@@ -63,7 +63,7 @@ input:focus::placeholder {
 #roulette-result {
   background-color: #ffbd80;
   border-radius: 15px;
-  max-width: 640px;
+  max-width: 100%;
   margin: 0px auto 0px auto;
 }
 
@@ -124,11 +124,6 @@ input:focus::placeholder {
   align-self: center;
 }
 
-.flip-card-inner {
-  max-width: 320px;
-  /* border: 1px solid red; */
-}
-
 .flip-card-front {
   background-color: #fdfb8a;
   border-radius: 15px;
@@ -141,8 +136,13 @@ input:focus::placeholder {
 
 .flip-card-back {
   overflow: scroll;
-  background-color: #fdfb8a;
+  background-color: #aae875;
   border-radius: 15px;
+  background-image: url(/assets/wave-yellow-B.png);
+  background-repeat: repeat-x;
+  background-position: 0% 240%;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 .other-captions h4 {
@@ -151,6 +151,16 @@ input:focus::placeholder {
 
 .other-captions table {
   margin: 0 auto;
+}
+
+@media (min-width: 360px) {
+  .flip-card-back {
+    background-position: 0% 185%;
+  }
+
+  #roulette-result {
+    max-width: 90%;
+  }
 }
 
 @media (min-width: 400px) {
@@ -173,10 +183,18 @@ input:focus::placeholder {
 }
 
 @media (min-width: 575px) {
+  #roulette-result {
+    max-width: 640px;
+  }
+
   #roulette-card {
     background-image: url(/assets/wave-yellow-A.png);
     background-repeat: repeat-y;
     background-position: 15%;
+  }
+
+  .flip-card-back {
+    background-position: 0% 175%;
   }
 }
 
