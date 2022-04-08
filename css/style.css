@@ -68,7 +68,7 @@ input:focus::placeholder {
 }
 
 #roulette-card {
-  background-image: url(/assets/wave-yellow-B.png);
+  background-image: url(../assets/wave-yellow-B.png);
   background-repeat: repeat-x;
   background-position: 0% 15%;
   padding: 0;
@@ -127,7 +127,7 @@ input:focus::placeholder {
 .flip-card-front {
   background-color: #fdfb8a;
   border-radius: 15px;
-  background-image: url(/assets/wave-green-A.png);
+  background-image: url(../assets/wave-green-A.png);
   background-repeat: repeat-y;
   background-position: center;
   padding: 0;
@@ -138,7 +138,7 @@ input:focus::placeholder {
   overflow: scroll;
   background-color: #aae875;
   border-radius: 15px;
-  background-image: url(/assets/wave-yellow-B.png);
+  background-image: url(../assets/wave-yellow-B.png);
   background-repeat: repeat-x;
   background-position: 0% 240%;
   padding-bottom: 0px;
@@ -188,7 +188,7 @@ input:focus::placeholder {
   }
 
   #roulette-card {
-    background-image: url(/assets/wave-yellow-A.png);
+    background-image: url(../assets/wave-yellow-A.png);
     background-repeat: repeat-y;
     background-position: 15%;
   }
