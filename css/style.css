@@ -1,10 +1,10 @@
-/* 
-orange #ffbd80 
-light pink #ffb3b3 
-dark pink #ff5e78 
-yellow #fdfb8a 
-green #aae875
-*/
+:root {
+  --color-main-orange: #ffbd80;
+  --color-main-light-pink: #ffb3b3;
+  --color-main-dark-pink: #ff5e78;
+  --color-main-yellow: #fdfb8a;
+  --color-main-green: #aae875;
+}
 
 body {
   font-family: davis-sans, sans-serif;
@@ -20,7 +20,7 @@ body h1 {
   padding: 0px;
   margin-bottom: 20px;
   padding-bottom: 3vh;
-  border-bottom: 5px solid #ffbd80;
+  border-bottom: 5px solid var(--color-main-orange);
 }
 
 body h3 {
@@ -32,14 +32,14 @@ body h3 {
 #user_input {
   font-size: 18px;
   width: 40%;
-  border: 2px #ffb3b3 solid;
+  border: 2px var(--color-main-light-pink) solid;
   border-radius: 10px;
   margin-bottom: 3vh;
 }
 
 #user_input:focus-visible {
   outline: none;
-  border: 3px #ff5e78 solid;
+  border: 3px var(--color-main-dark-pink) solid;
 }
 
 input:focus::placeholder {
@@ -49,19 +49,19 @@ input:focus::placeholder {
 #shoot {
   font-weight: 500;
   font-size: 18px;
-  border: 3px #ffb3b3 solid;
+  border: 3px var(--color-main-light-pink) solid;
   border-radius: 10px;
-  background-color: #ffb3b3;
+  background-color: var(--color-main-light-pink);
 }
 
 #shoot:active {
-  border: 3px #ff5e78 solid;
-  background-color: #ff5e78;
+  border: 3px var(--color-main-dark-pink) solid;
+  background-color: var(--color-main-dark-pink);
   color: #fff;
 }
 
 #roulette-result {
-  background-color: #ffbd80;
+  background-color: var(--color-main-orange);
   border-radius: 15px;
   max-width: 100%;
   margin: 0px auto 0px auto;
@@ -120,12 +120,12 @@ input:focus::placeholder {
 #section-title::before,
 #section-title::after {
   content: "";
-  border-top: 1px solid #ffbd80;
+  border-top: 1px solid var(--color-main-orange);
   align-self: center;
 }
 
 .flip-card-front {
-  background-color: #fdfb8a;
+  background-color: var(--color-main-yellow);
   border-radius: 15px;
   background-image: url(../assets/wave-green-A.png);
   background-repeat: repeat-y;
@@ -136,7 +136,7 @@ input:focus::placeholder {
 
 .flip-card-back {
   overflow: scroll;
-  background-color: #aae875;
+  background-color: var(--color-main-green);
   border-radius: 15px;
   background-image: url(../assets/wave-yellow-B.png);
   background-repeat: repeat-x;
