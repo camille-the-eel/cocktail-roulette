@@ -153,7 +153,7 @@ input:focus::placeholder {
   margin: 0 auto;
 }
 
-@media (min-width: 360px) {
+@media (min-width: 360px) and (max-width: 399px) {
   .flip-card-back {
     background-position: 0% 185%;
   }
@@ -163,7 +163,7 @@ input:focus::placeholder {
   }
 }
 
-@media (min-width: 400px) {
+@media (min-width: 400px) and (max-width: 574px) {
   body h1 {
     font-size: 60px;
   }
